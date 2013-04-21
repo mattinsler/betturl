@@ -17,6 +17,23 @@ describe 'betturl', ->
       parsed.hosts[0].should.have.property 'port', 80
       parsed.should.have.property 'path', '/'
     
+    it 'should parse partial URLs', ->
+      url = '/foo/bar/baz?a=b'
+      parsed = betturl.parse(url)
+      
+      parsed.should.have.property 'url', url
+      parsed.should.have.property 'path', '/foo/bar/baz'
+      parsed.query.should.have.property 'a', 'b'
+    
+    it 'should parse partial URLs with a host', ->
+      url = 'google.com/foo/bar/baz?a=b'
+      parsed = betturl.parse(url)
+      console.log parsed
+      
+      parsed.should.have.property 'url', url
+      parsed.should.have.property 'path', '/foo/bar/baz'
+      parsed.query.should.have.property 'a', 'b'
+    
     it 'should parse URLs with a user/password', ->
       url = 'https://user:password@www.facebook.com'
       parsed = betturl.parse(url)

@@ -25,11 +25,13 @@ parse_query = (query) ->
   q
 
 exports.parse = (url, opts = {}) ->
-  [_x, protocol, _x, auth, host, path] = /([^:]+):\/\/(([^:]+:[^@]+)@)?([^\/]+)(.*)/.exec(url)
+  [_x, _x, protocol, _x, auth, host, path] = /^(([^:]+):\/\/)?(([^:]+:[^@]+)@)?([^\/]+)?(\/.*)?$/.exec(url)
   [_x, path, _x, query, _x, hash] = /(\/[^?#]+)?(\?([^#]+))?(#(.*))?/.exec(path)
   
-  hosts = host.split(',').map (h) -> parse_host(h, protocol)
-  [user, password] = auth.split(':') if auth?
+  if host?
+    hosts = host.split(',').map (h) -> parse_host(h, protocol)
+  if auth?
+    [user, password] = auth.split(':')
   
   if opts.parse_query is false
     query = if query? then decodeURIComponent(query) else ''
@@ -40,30 +42,33 @@ exports.parse = (url, opts = {}) ->
   
   o = {
     url: url
-    protocol: protocol
-    hosts: hosts
     path: decodeURIComponent(path)
     query: query
     hash: hash or ''
   }
   
-  if hosts.length is 1
+  o.protocol = protocol if protocol?
+  o.hosts = hosts if hosts?
+  if hosts?.length is 1
     o.host = hosts[0].host
     o.port = hosts[0].port
   o.auth = {user: decodeURIComponent(user), password: decodeURIComponent(password)} if user? or password?
   
   o
 
-# exports.format = () ->
-#   
-#   
-#   
-#   exports.make_url = (base, path) ->
-#     url = require 'url'
-#     base_url = url.parse(base)
-#     path_url = url.parse(path)
-# 
-#     return path if path.protocol? and path.host?
-#     return "#{base_url.protocol}//#{base_url.host}#{path_url.pathname}" if path[0] is '/'
-#     /^(.+\/)/.exec(base_url.href) + path_url.pathname
-#   
+exports.format = (parsed) ->
+  host = parsed.host or parsed.hosts[0].host
+  port = parsed.port or parsed.hosts[0].port
+  port = if STANDARD_PORT[parsed.protocol] is port then '' else ':' + port
+  
+  auth = if parsed.auth?.user? and parsed.auth?.password? then encodeURIComponent(parsed.auth.user) + ':' + encodeURIComponent(parsed.auth.password) + '@' else ''
+  
+  path = '/' + parsed.path.replace(/^\/+/, '')
+  query = []
+  for k, v of parsed.query
+    query.push(encodeURIComponent(k) + '=' + encodeURIComponent(v))
+  query = query.join('&')
+  query = '?' + query if query isnt ''
+  hash = if parsed.hash is '' then '' else '#' + parsed.hash
+  
+  parsed.protocol + '://' + auth + host + port + path + query + hash
