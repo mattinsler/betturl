@@ -57,8 +57,8 @@ exports.parse = (url, opts = {}) ->
   o
 
 exports.format = (parsed) ->
-  host = parsed.host or parsed.hosts[0].host
-  port = parsed.port or parsed.hosts[0].port
+  host = parsed.host or parsed.hosts?[0]?.host or 'localhost'
+  port = parsed.port or parsed.hosts?[0]?.port or STANDARD_PORT[parsed.protocol]
   port = if STANDARD_PORT[parsed.protocol] is port then '' else ':' + port
   
   auth = if parsed.auth?.user? and parsed.auth?.password? then encodeURIComponent(parsed.auth.user) + ':' + encodeURIComponent(parsed.auth.password) + '@' else ''
