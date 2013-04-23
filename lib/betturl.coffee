@@ -26,7 +26,7 @@ parse_query = (query) ->
 
 exports.parse = (url, opts = {}) ->
   [_x, _x, protocol, _x, auth, host, path] = /^(([^:]+):\/\/)?(([^:]+:[^@]+)@)?([^\/]+)?(\/.*)?$/.exec(url)
-  [_x, path, _x, query, _x, hash] = /(\/[^?#]+)?(\?([^#]+))?(#(.*))?/.exec(path)
+  [_x, path, _x, query, _x, hash] = /(\/[^?#]*)?(\?([^#]+))?(#(.*))?/.exec(path)
   
   if host?
     hosts = host.split(',').map (h) -> parse_host(h, protocol)

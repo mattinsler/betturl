@@ -25,6 +25,15 @@ describe 'betturl', ->
       parsed.should.have.property 'path', '/foo/bar/baz'
       parsed.query.should.have.property 'a', 'b'
     
+    it 'should parse querystrings after a /', ->
+      url = '/?foo=bar'
+      
+      parsed = betturl.parse(url)
+      
+      parsed.should.have.property 'url', url
+      parsed.should.have.property 'path', '/'
+      parsed.query.should.have.property 'foo', 'bar'
+    
     it 'should parse partial URLs with a host', ->
       url = 'google.com/foo/bar/baz?a=b'
       parsed = betturl.parse(url)
