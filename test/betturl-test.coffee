@@ -1,6 +1,6 @@
 require 'should'
 assert = require 'assert'
-betturl = require '../lib/betturl'
+betturl = require '../dist/betturl'
 
 describe 'betturl', ->
   describe '#parse', ->
@@ -37,7 +37,6 @@ describe 'betturl', ->
     it 'should parse partial URLs with a host', ->
       url = 'google.com/foo/bar/baz?a=b'
       parsed = betturl.parse(url)
-      console.log parsed
       
       parsed.should.have.property 'url', url
       parsed.should.have.property 'path', '/foo/bar/baz'
@@ -85,3 +84,14 @@ describe 'betturl', ->
       parsed = betturl.parse(url, parse_query: false)
       
       parsed.should.have.property 'query', 'yay=true'
+
+    it 'should parse empty usernames', ->
+      url = 'http://:password@foo.com'
+      parsed = betturl.parse(url)
+      
+      parsed.should.have.property 'url', url
+      parsed.should.have.property 'protocol', 'http'
+      parsed.should.have.property 'host', 'foo.com'
+      parsed.should.have.property 'path', '/'
+      parsed.auth.should.have.property 'user', ''
+      parsed.auth.should.have.property 'password', 'password'

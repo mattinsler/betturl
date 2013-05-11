@@ -6,10 +6,11 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: '<json:package.json>',
+    clean: ['dist'],
     coffee: {
       compile: {
         files: {
-          'lib/*.js': 'lib/*.coffee'
+          'dist/*.js': 'lib/*.coffee'
         }
       }
     },
@@ -22,5 +23,5 @@ module.exports = function(grunt) {
   
   grunt.registerTask('test', 'simplemocha');
   // Default task.
-  grunt.registerTask('default', 'coffee test');
+  grunt.registerTask('default', 'clean coffee test');
 };

@@ -1,7 +1,7 @@
 {
   "name": "betturl",
   "description": "Better URL handling",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "homepage": "https://github.com/mattinsler/betturl",
   "author": {
     "name": "Matt Insler",
@@ -21,7 +21,7 @@
       "url": "https://github.com/mattinsler/betturl/blob/master/LICENSE-MIT"
     }
   ],
-  "main": "lib/betturl",
+  "main": "dist/betturl",
   "engines": {
     "node": ">= 0.6.0"
   },
@@ -31,7 +31,9 @@
   "devDependencies": {
     "mocha": "~1.7.0",
     "grunt": "~0.3.15",
-    "grunt-contrib": "~0.3.0"
+    "grunt-contrib": "~0.3.0",
+    "grunt-simple-mocha": "~0.2.0",
+    "should": "~1.2.2"
   },
   "keywords": []
 }
