@@ -1,39 +1,24 @@
 {
   "name": "betturl",
+  "version": "0.3.0",
   "description": "Better URL handling",
-  "version": "0.2.3",
-  "homepage": "https://github.com/mattinsler/betturl",
-  "author": {
-    "name": "Matt Insler",
-    "email": "matt.insler@gmail.com",
-    "url": "http://www.mattinsler.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/mattinsler/betturl.git"
-  },
-  "bugs": {
-    "url": "https://github.com/mattinsler/betturl/issues"
-  },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/mattinsler/betturl/blob/master/LICENSE-MIT"
-    }
-  ],
-  "main": "dist/betturl",
-  "engines": {
-    "node": ">= 0.6.0"
-  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
-    "test": "grunt test"
+    "build": "ts-pub build",
+    "test": "jest"
   },
+  "keywords": [],
+  "author": "Matt Insler",
+  "repository": "mattinsler/betturl",
+  "dependencies": {},
   "devDependencies": {
-    "mocha": "~1.7.0",
-    "grunt": "~0.3.15",
-    "grunt-contrib": "~0.3.0",
-    "grunt-simple-mocha": "~0.2.0",
-    "should": "~1.2.2"
-  },
-  "keywords": []
+    "@types/node": "10.10.1",
+    "@types/jest": "23.3.2",
+    "jest": "23.6.0",
+    "ts-jest": "23.1.4",
+    "ts-pub": "0.0.5",
+    "typescript": "3.0.3"
+  }
 }
